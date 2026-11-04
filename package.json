@@ -5,8 +5,15 @@
   "private": true,
   "description": "An end-to-end Smart Fan application and QA automation framework with web, API, mobile, and AI evaluation testing.",
   "type": "module",
+  "workspaces": [
+    "apps/web",
+    "apps/api",
+    "tests"
+  ],
   "scripts": {
-    "test": "echo \"Tests are not configured yet\""
+    "test": "echo \"Tests are not configured yet\"",
+    "test:web": "npm run test:web --workspace=tests",
+    "test:api": "npm run test:api --workspace=tests"
   },
   "keywords": [
     "qa-automation",
