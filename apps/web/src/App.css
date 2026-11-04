@@ -1,0 +1,326 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+
+:root {
+  font-family: "DM Sans", sans-serif;
+  color: #e9eef7;
+  background: #0b1020;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.dashboard {
+  width: min(1150px, 92%);
+  margin: auto;
+  padding: 30px 0;
+}
+
+.header,
+.brand,
+.connection,
+.welcome,
+.card-heading,
+.speed-options,
+.mode-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  padding-bottom: 25px;
+  border-bottom: 1px solid #222b40;
+}
+
+.brand {
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.brand-icon {
+  color: #60a5fa;
+  font-size: 30px;
+}
+
+.connection {
+  justify-content: flex-start;
+  gap: 9px;
+  color: #9ba9bd;
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #60a5fa;
+}
+
+.welcome {
+  margin: 42px 0 28px;
+}
+
+.eyebrow,
+.card-label {
+  color: #8291a9;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.welcome h1 {
+  margin: 8px 0;
+  font-size: clamp(28px, 4vw, 38px);
+}
+
+.subtitle,
+.helper-text,
+.metric-note,
+.fan-description {
+  color: #8998af;
+  font-size: 13px;
+}
+
+.room-label {
+  padding: 10px 16px;
+  border: 1px solid #34435d;
+  border-radius: 20px;
+  color: #b9c8dc;
+  font-size: 12px;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.card {
+  padding: 25px;
+  border: 1px solid #26334b;
+  border-radius: 18px;
+  background: #141d31;
+}
+
+.card h2 {
+  margin: 8px 0;
+  font-size: 20px;
+}
+
+.fan-status {
+  padding: 6px 13px;
+  border-radius: 20px;
+  background: #29354a;
+  color: #aab6c8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fan-status.active {
+  background: #123d35;
+  color: #58e0ae;
+}
+
+.fan-visual {
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  margin: 25px auto 15px;
+  border: 2px solid #34445f;
+  border-radius: 50%;
+  background: radial-gradient(circle, #263b5a, #111b2e);
+}
+
+.fan-visual span {
+  color: #70b5ff;
+  font-size: 100px;
+  line-height: 1;
+}
+
+.spinning span {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fan-description {
+  text-align: center;
+}
+
+.power-button {
+  display: block;
+  width: 100%;
+  margin-top: 22px;
+  padding: 13px;
+  border: 0;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+
+.power-button:hover {
+  background: #3b82f6;
+}
+
+.power-button.power-on {
+  background: #b83c4c;
+}
+
+.control-card > h2 {
+  margin-bottom: 18px;
+}
+
+.speed-display {
+  margin: 15px 0;
+}
+
+.speed-display strong {
+  font-size: 46px;
+}
+
+.speed-display span {
+  color: #8291a9;
+}
+
+.speed-options {
+  gap: 8px;
+}
+
+.speed-button {
+  flex: 1;
+  padding: 12px 4px;
+  border: 1px solid #34435d;
+  border-radius: 9px;
+  background: #1d2940;
+  color: #dce7f6;
+}
+
+.speed-button.selected,
+.mode-button.selected {
+  border-color: #4b91ff;
+  background: #1d4c91;
+  color: white;
+}
+
+.helper-text {
+  margin-top: 13px;
+}
+
+.mode-section {
+  margin-top: 30px;
+}
+
+.mode-section h3 {
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.mode-options {
+  gap: 8px;
+}
+
+.mode-button {
+  flex: 1;
+  padding: 11px 5px;
+  border: 1px solid #34435d;
+  border-radius: 9px;
+  background: #1d2940;
+  color: #b8c7dc;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.metric-card {
+  min-height: 165px;
+}
+
+.metric-icon {
+  font-size: 24px;
+}
+
+.metric-card h2 {
+  margin-top: 15px;
+  font-size: 25px;
+}
+
+.footer {
+  padding: 30px 0 10px;
+  color: #697991;
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .overview-grid,
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .room-label {
+    white-space: nowrap;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .dashboard {
+    width: 94%;
+  }
+
+  .connection {
+    font-size: 11px;
+  }
+
+  .brand {
+    font-size: 19px;
+  }
+
+  .mode-button {
+    font-size: 10px;
+  }
+}
