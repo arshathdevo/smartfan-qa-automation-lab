@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:web": "playwright test",
+    "test:web": "playwright test --config=../playwright.web.config.ts",
     "test:api": "playwright test --config=../playwright.config.ts"
   },
   "devDependencies": {
