@@ -1,0 +1,21 @@
+
+{
+  "name": "smartfan-qa-automation-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An end-to-end Smart Fan application and QA automation framework with web, API, mobile, and AI evaluation testing.",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Tests are not configured yet\""
+  },
+  "keywords": [
+    "qa-automation",
+    "playwright",
+    "typescript",
+    "api-testing",
+    "ai-testing",
+    "smart-fan"
+  ],
+  "author": "arshathdevo",
+  "license": "MIT"
+}
