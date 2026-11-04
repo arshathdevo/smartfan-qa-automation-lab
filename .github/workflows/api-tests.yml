@@ -48,6 +48,20 @@ jobs:
       - name: Run Playwright API tests
         run: npm run test:api
 
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright Web Tests
+        run: npm run test:web
+
+      - name: Upload Web HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartfan-web-playwright-report
+          path: playwright-web-report/
+          retention-days: 14
+
       - name: Upload HTML test report
         if: always()
         uses: actions/upload-artifact@v4
