@@ -88,3 +88,34 @@ test("Speed controls are disabled when fan is OFF", async ({ page }) => {
     ).toBeDisabled();
   }
 });
+test("Troubleshooting assistant identifies known problems", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByPlaceholder("Describe your fan problem...").fill(
+    "My fan is not turning on"
+  );
+
+  await page.getByRole("button", { name: "Send" }).click();
+
+  await expect(
+    page.getByText(
+      "Check whether the fan has power. If the problem continues, contact technical support."
+    )
+  ).toBeVisible();
+});
+
+test("Troubleshooting assistant handles unknown problems safely", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByPlaceholder("Describe your fan problem...").fill(
+    "My fan is flying by itself"
+  );
+
+  await page.getByRole("button", { name: "Send" }).click();
+
+  await expect(
+    page.getByText(
+      "I'm unable to identify this issue from my troubleshooting knowledge base. Please contact technical support."
+    )
+  ).toBeVisible();
+});
