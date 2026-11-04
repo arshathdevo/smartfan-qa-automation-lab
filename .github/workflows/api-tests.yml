@@ -1,0 +1,57 @@
+
+name: SmartFan API Automation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api-tests:
+    name: Build and Test SmartFan API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build API
+        run: npm run build --workspace=@smartfan/api
+
+      - name: Start API server
+        run: |
+          npm run dev --workspace=@smartfan/api > api.log 2>&1 &
+          for attempt in {1..30}; do
+            if curl --silent --fail http://localhost:5000/api/health; then
+              echo "API server is ready"
+              break
+            fi
+            sleep 2
+          done
+
+          if ! curl --silent --fail http://localhost:5000/api/health; then
+            echo "API server failed to start"
+            cat api.log
+            exit 1
+          fi
+
+      - name: Run Playwright API tests
+        run: npm run test:api
+
+      - name: Upload HTML test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartfan-playwright-report
+          path: playwright-report/
+          retention-days: 14
