@@ -35,3 +35,8 @@ venv/
 
 # VS Code Local History
 .history/
+
+# Playwright test reports
+playwright-report/
+playwright-web-report/
+test-results/

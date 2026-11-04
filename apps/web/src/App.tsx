@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import "./App.css";
+import TroubleshootingChat from "./components/TroubleshootingChat";
 
 import {
   getFanState,
@@ -238,6 +239,7 @@ function App() {
       <footer className="footer">
         SmartFan QA Automation Lab · Educational Simulation
       </footer>
+      <TroubleshootingChat />
     </main>
   );
 }
