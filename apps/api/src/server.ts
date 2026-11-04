@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import fanRoutes from "./routes/fan.routes.js";
+import troubleshootingRoutes from "./routes/troubleshooting.routes.js";
 
 const app = express();
 const PORT = 5000;
@@ -21,6 +22,7 @@ app.get("/api/health", (req, res) => {
 
 // Fan API routes
 app.use("/api/fan", fanRoutes);
+app.use("/api/troubleshooting", troubleshootingRoutes);
 
 // Start server
 app.listen(PORT, () => {
