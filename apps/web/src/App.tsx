@@ -1,31 +1,104 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
-type FanMode = "NORMAL" | "SLEEP" | "BOOST";
+import {
+  getFanState,
+  turnFanOn,
+  turnFanOff,
+  updateFanSpeed,
+  updateFanMode
+} from "./services/fanApi";
+
+import type { FanState } from "./services/fanApi";
 
 function App() {
-  const [isOn, setIsOn] = useState(false);
-  const [speed, setSpeed] = useState(0);
-  const [mode, setMode] = useState<FanMode>("NORMAL");
+  const [fanState, setFanState] = useState<FanState>({
+    isOn: false,
+    speed: 0,
+    mode: "NORMAL"
+  });
 
-  const handlePowerToggle = () => {
-    if (isOn) {
-      setIsOn(false);
-      setSpeed(0);
-    } else {
-      setIsOn(true);
-      setSpeed(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const { isOn, speed, mode } = fanState;
+
+  // Load the current fan state from the backend
+  useEffect(() => {
+    let active = true;
+
+    const loadFanState = async () => {
+      try {
+        const data = await getFanState();
+
+        if (active) {
+          setFanState(data);
+        }
+      } catch {
+        if (active) {
+          setError("Unable to connect to the SmartFan API.");
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void loadFanState();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Update fan state using the backend response
+  const applyFanState = (data: FanState) => {
+    setFanState(data);
+    setError("");
+  };
+
+  // Turn fan ON or OFF
+  const handlePowerToggle = async () => {
+    try {
+      const data = isOn
+        ? await turnFanOff()
+        : await turnFanOn();
+
+      applyFanState(data);
+    } catch {
+      setError("Failed to change fan power.");
     }
   };
 
-  const handleSpeedChange = (newSpeed: number) => {
-    if (isOn) {
-      setSpeed(newSpeed);
+  // Change fan speed
+  const handleSpeedChange = async (newSpeed: number) => {
+    try {
+      const data = await updateFanSpeed(newSpeed);
+      applyFanState(data);
+    } catch {
+      setError("Failed to update fan speed.");
     }
   };
 
-  const energyUsage = isOn ? (speed * 2.5).toFixed(1) : "0.0";
+  // Change operating mode
+  const handleModeChange = async (newMode: FanState["mode"]) => {
+    try {
+      const data = await updateFanMode(newMode);
+      applyFanState(data);
+    } catch {
+      setError("Failed to update fan mode.");
+    }
+  };
+
+  const energyUsage = isOn
+    ? (speed * 2.5).toFixed(1)
+    : "0.0";
+
+  if (loading) {
+    return <main className="dashboard">Loading SmartFan...</main>;
+  }
 
   return (
     <main className="dashboard">
@@ -52,6 +125,12 @@ function App() {
         <div className="room-label">Living Room</div>
       </section>
 
+      {error && (
+        <p role="alert" className="error-message">
+          {error}
+        </p>
+      )}
+
       <section className="overview-grid">
         <article className="card fan-card">
           <div className="card-heading">
@@ -69,7 +148,9 @@ function App() {
           </div>
 
           <p className="fan-description">
-            {isOn ? "Your fan is running" : "Your fan is currently switched off"}
+            {isOn
+              ? "Your fan is running"
+              : "Your fan is currently switched off"}
           </p>
 
           <button
@@ -103,21 +184,29 @@ function App() {
           </div>
 
           <p className="helper-text">
-            {isOn ? "Select your preferred speed" : "Turn on the fan to adjust speed"}
+            {isOn
+              ? "Select your preferred speed"
+              : "Turn on the fan to adjust speed"}
           </p>
 
           <div className="mode-section">
             <h3>Operating Mode</h3>
             <div className="mode-options">
-              {(["NORMAL", "SLEEP", "BOOST"] as FanMode[]).map((fanMode) => (
-                <button
-                  key={fanMode}
-                  className={mode === fanMode ? "mode-button selected" : "mode-button"}
-                  onClick={() => setMode(fanMode)}
-                >
-                  {fanMode}
-                </button>
-              ))}
+              {(["NORMAL", "SLEEP", "BOOST"] as FanState["mode"][]).map(
+                (fanMode) => (
+                  <button
+                    key={fanMode}
+                    className={
+                      mode === fanMode
+                        ? "mode-button selected"
+                        : "mode-button"
+                    }
+                    onClick={() => handleModeChange(fanMode)}
+                  >
+                    {fanMode}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </article>
